@@ -72,7 +72,30 @@ const register = function(username,password){
         })
     })
 }
+const getName = function(token){
+    return new Promise((resolve,reject)=>{
+        if(token){
+            try{
+                let decode = jwt.decode(token,jwtTokenSecret)
+                if(decode.expires<=Date.now()){
+                    resolve({status:401, success:false, message:"token 过期"})
+                    logger.info("token 过期",{status:401, success:false})
+                }else{
+                    resolve({status:200, success:true, message:"token 正确",data:decode.username})
+                    logger.info("token 正确",{status:200, success:true, data:decode.username})
+                }
+            }catch(err){
+                resolve({status:500, success:false, message:"something wrong"})
+                logger.error("something wrong",err)
+            }
+        }else{
+            resolve({status:400,success:false, message:"请提交token"})
+            logger.info("请提交token",{status:400,success:false})
+        }
+    })
+}
 module.exports={
     login,
-    register
+    register,
+    getName
 }

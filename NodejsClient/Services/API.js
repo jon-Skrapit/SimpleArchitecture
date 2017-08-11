@@ -1,59 +1,54 @@
-const apisauce =  require('apisauce')
+const request = require('request')
 const NetworkConfig = require('../Config/NetworkConfig')
-const createAPIClient = (baseURL = NetworkConfig.baseAPIDomain) => {
-
-    const api = apisauce.create({
-        baseURL,
-        headers: {
-        'Cache-Control': 'no-cache',
-        'Content-Type':'application/json',
-        },
-        timeout: 30000
+const timeout = 1500
+const apiUrl = NetworkConfig.baseAPIDomain
+const login = (param) => {
+    return new Promise((resolve, reject)=>{
+        request.post({url:apiUrl+'/users/login',form:param,timeout: timeout},(err,httpResponse,body)=>{
+            if(err){
+                reject(err)
+            }else{
+                resolve(JSON.parse(body))
+            }
+        })
     })
-
-    if (AppConfig.enableReactotron && console.tron) {
-        api.addMonitor(console.apisauce)
-        // if you just wanted to track on 500's
-        // api.addMonitor(response => {
-        //   if (response.problem === 'SERVER_ERROR')
-        //     Reactotron.apisauce(response)
-        // })
-    }
-    const loginRequest = (data,loginType) => {
-
-        var thirdParties = ['facebook','weibo','google','wechat'];
-
-        let param = {}
-        param[loginType] = data
-
-        if(loginType == 'phone' || loginType == 'email'){
-        return api.post('/login', param);
-        }
-        else if(loginType=='google'){
-        let {accessToken, id} = data
-        return api.post('/' + loginType + '/login', {token:accessToken, uid:id});
-        }
-        else if(loginType=='facebook'){
-        let {accessToken, userID} = data
-        return api.post('/facebook/login', {token:accessToken, uid: userID});
-        }
-        else if(loginType=='weibo'){
-        let {accessToken, userID} = data
-        return api.post('/weibo/login', {accessToken,uid: userID})
-        }
-        else if(loginType==='wechat'){
-        let {code,state} = data
-        return api.post('/wechat/login', {code, state})
-        }
-        else{
-        console.debug('third party doesnt exist')
-        return null;
-        }
-    }
-    return {
-        loginRequest
-    }
+}
+const register = (param) => {
+    return new Promise((resolve,reject)=>{
+        request.post({url:apiUrl+'/users/register',form:param,timeout: timeout},(err,httpResponse,body)=>{
+            if(err){
+                reject(err)
+            }else{
+                resolve(JSON.parse(body))
+            }
+        })
+    })
+}
+const allData = (param) => {
+    return new Promise((resolve,reject)=>{
+        request.post({url:apiUrl+'/datas/allData',form:param,timeout: timeout},(err,httpResponse,body)=>{
+            if(err){
+                reject(err)
+            }else{
+                resolve(JSON.parse(body))
+            }
+        })
+    })
+}
+const update = (param) => {
+    return new Promise((resolve,reject)=>{
+        request.post({url:apiUrl+'/datas/update',form:param,timeout: timeout},(err,httpResponse,body)=>{
+            if(err){
+                reject(err)
+            }else{
+                resolve(JSON.parse(body))
+            }
+        })
+    })
 }
 module.exports={
-    createAPIClient
+    login,
+    register,
+    allData,
+    update
 }

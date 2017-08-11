@@ -1,43 +1,28 @@
 const Realm = require('realm')
 const NetworkConfig = require ('../Config/NetworkConfig')
 const Schema = require('../Model')
-var getRealmWithLogin = (username,password) =>{
-    return new Promise(function(resolve,reject){
-        Realm.Sync.User.login(NetworkConfig.realmHost, username, password,(err,user)=>{
-            if(!err){
+const getRealm = (accessToken) =>{
+    return new Promise((resolve,reject)=>{
+        Realm.Sync.User.registerWithProvider(
+        NetworkConfig.realmHost,//realm服务器的ip地址，端口
+        NetworkConfig.realmCustomLogin,//realm服务器上的自定义登陆
+        accessToken,
+        (error, user) => { 
+            if(error){
+                reject(err)
+            }else{
                 var realm = new Realm({
-                    sync:{
-                        user:user,
-                        url: NetworkConfig.realmSyncURl
+                    sync: {
+                        user: user,
+                        url: NetworkConfig.realmSyncURl,
                     },
-                    schema:[Schema.DataSchema]
-                })
+                    schema: [Schema.DataSchema]
+                });
                 resolve({realm:realm,realmUser:user})
-            }else{
-                reject(err)
-            }
-        })
-    })
-}
-var getRealmWithRegister = (username,password) => {
-    return new Promise(function(resolve,reject){
-        Realm.Sync.User.register(NetworkConfig.realmHost, username, password,(err,user)=>{
-            if(!err){
-                var realm = new Realm({
-                    sync:{
-                        user:user,
-                        url: NetworkConfig.realmSyncURl
-                    },
-                    schema:[Schema.DataSchema]
-                })
-                resolve(realm)
-            }else{
-                reject(err)
             }
         })
     })
 }
 module.exports = {
-    getRealmWithLogin,
-    getRealmWithRegister
+    getRealm
 }

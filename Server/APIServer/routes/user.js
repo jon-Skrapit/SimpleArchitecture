@@ -30,4 +30,14 @@ router.post('/register',function (req,res){
         res.json(result)
     })
 })
+/**
+ * 
+curl -X POST -H "Content-Type: application/json"      -d '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvbiIsImV4cGlyZXMiOjE1MDMwNDYyNzg4NTl9.HHh9ZhBni_O70DDX4JhbTf2vpX8u7RnQIdB0kNFQVhQ"}'      "localhost:3000/users/name"
+ */
+router.get('/name',function (req,res){
+    token = req.query.token
+    UserModel.getName(token).then((result)=>{
+        res.json(result)
+    })
+})
 module.exports = router;

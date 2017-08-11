@@ -2,30 +2,48 @@ const Realm =  require('./Services/Realm')
 const Readline = require('readline')
 const sleep = require('sleep')
 const ReadlineSync = require('readline-sync')
+const API = require('./Services/API')
 //----------使用realm
-var questions=['name:','password:']
-var type = ReadlineSync.question('login or register?(input 1 or 2):',{hideEchoBack: false,limit: ['1','2']})
+let questions=['name:','password:']
+let type = ReadlineSync.question('login or register?(input 1 or 2):',{hideEchoBack: false,limit: ['1','2']})
 if(type === '1'){
   type = 'login'
 }else{
   type = 'register'
 }
 let answer = []
-var username = ReadlineSync.question('username:',{hideEchoBack:false})
-var password = ReadlineSync.question('password:', {hideEchoBack:false})
+let username = ReadlineSync.question('username:',{hideEchoBack:false})
+let password = ReadlineSync.question('password:', {hideEchoBack:false})
 if(type==='register'){
-  Realm.getRealmWithRegister('jon','password').then((object)=>{
-    global.realm = object.realm
-    global.realmUser = object.realmUser
-  }).catch((err)=>{
-    console.log(err)
+  //注册
+  API.register({username:username,password:password}).then((response)=>{
+    if(response.success){
+      global.token = response.data
+      Realm.getRealm(token).then((resutl)=>{
+        global.realm = resutl.realm
+        global.realmUser = resutl.realmUser
+      }).catch((err)=>{
+
+      })
+    }else{
+
+    }
   })
 }else{
-  Realm.getRealmWithLogin('jon','password').then((object)=>{
-    global.realm = object.realm
-    global.realmUser = object.realmUser
-  }).catch((err)=>{
-    console.log(err)
+  //登陆
+  API.login({username:username,password:password}).then((response)=>{
+    if(response.success){
+      global.token = response.data
+      console.log(global.token)
+      Realm.getRealm(token).then((resutl)=>{
+        global.realm = resutl.realm
+        global.realmUser = resutl.realmUser
+      }).catch((err)=>{
+        console.log(err)
+      })
+    }else{
+      console.log('登陆失败')
+    }
   })
 }
 //-----------使用readline
