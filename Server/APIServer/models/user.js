@@ -4,14 +4,15 @@ const moment = require('moment')
 const jwt = require('jwt-simple');
 const config = require('../config')
 const jwtTokenSecret = config.jwtTokenSecret
+const logger = require('../util/logs');
 
 const login = function(username,password){
     return new Promise((resolve, reject)=>{
         let sqlCommand = 'SELECT * FROM `users` where `username`=?'
         connection.query(sqlCommand,[username],(err,result,fields)=>{
             if(err){
-                console.log(err)
-                resolve({message:"something wrong"})
+                resolve({status:500, success:false, message:"something wrong"})
+                logger.error("something wrong",err)
             }else{
                 console.log(result)
                 user = result[0]
@@ -25,16 +26,19 @@ const login = function(username,password){
                             username: username,
                             expires:expires
                         },jwtTokenSecret)
-                        resolve({message:'密码正确',token})
+                        resolve({status:200,success:true, message:'密码正确',data:token})
+                        logger.info('密码正确', {status:200,success:true,data:token})
                         sqlCommand = 'update `users` set `token`=? where `username`=?'
                         connection.query(sqlCommand,[token,username],(err,result)=>{
-                            console.log(err)
+                            logger.error(err)
                         })
                     }else{
-                        resolve({message:'密码错误'})
+                        resolve({status:401, success:false, message:'密码错误'})
+                        logger.info('密码错误',{status:401, success:false})
                     }
                 }else{
-                    resolve({message:'没有此用户'})
+                    resolve({status:404, success:false, message:'没有此用户'})
+                    logger.info('没有此用户',{status:404, success:false})
                 }
             }
         })
@@ -47,10 +51,23 @@ const register = function(username,password){
         password = hash.update(password).digest('hex')
         connection.query(sqlCommand,[username,password],(err,result)=>{
             if(err){
-                console.log(err)
-                resolve({message:"注册失败"})
+                logger.error(err)
+                sqlCommand = 'select * from `users` where `username`=?'
+                connection.query(sqlCommand,[username],(err,result)=>{
+                    if(err){
+                        resolve({status:500, success:false, message:"注册失败"})
+                        logger.error(err)
+                    }else{
+                        let user = result[0]
+                        if(user){
+                            resolve({status:500, success:false, message:"该用户已存在"})
+                            logger.info("该用户已存在",{status:500, success:false})
+                        }
+                    }
+                })
             }else{
-                resolve({message:"注册成功"})
+                resolve({status:200, success:true, message:"注册成功"})
+                logger.info('注册成功', {status:200, success:true})
             }
         })
     })
