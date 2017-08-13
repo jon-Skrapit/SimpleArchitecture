@@ -1,4 +1,5 @@
 # SimpleArchitecture
+![架构图](https://github.com/jon-Skrapit/SimpleArchitecture/blob/master/img/1.png)
 ## Server
 ### APIServer
 #### 1.login
@@ -44,7 +45,6 @@ curl 54.68.36.38:3000/users/name?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1
 * Sample Call:
 ```
 curl -X POST -H "Content-Type: application/json"      -d '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvbiIsImV4cGlyZXMiOjE1MDMwMzAzMzQ1NjJ9.oPUeDgM07YKCeeFZoTEdQ0GY0U-rZ9X_wJThUHo6Dh4","data":{"one":1,"two":1,"three":1,"four":1}}'      "54.68.36.38:3000/datas/update"
-
 ```
 #### 5.allData
 * URL
