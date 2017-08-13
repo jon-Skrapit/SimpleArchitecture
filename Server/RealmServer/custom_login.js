@@ -23,7 +23,7 @@ module.exports = function(deps) {
     // ensure required default options are set (optional function)
     static get defaultOptions() {
       return {
-        server: 'http://127.0.0.1:3000',
+        server: 'http://54.68.36.38:3000',
       }
     }
 

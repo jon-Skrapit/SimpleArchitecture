@@ -88,38 +88,45 @@ readline.on('line',function(line){
   readline.prompt();
 })
 readline.on('close',function(){
-  global.realmUser.logout()
+  if(global.realmUser){
+    global.realmUser.logout()
+  }
   console.log('bye bye')
   process.exit(0)
 })
 function addOne(index){
   let realm = global.realm
-  let datas = realm.objects('Data').slice(0, 1)
-  let data = datas[0]
-  if(data){
-    realm.write(()=>{
-      if(index==='1'){
-        data.one = data.one+1
-      }else if(index==='2'){
-        data.two = data.two+1
-      }else if(index==='3'){
-        data.three = data.three+1
-      }else if(index==='4'){
-        data.four = data.four+1
-      }
-    })
+  if(!!realm){
+    let datas = realm.objects('Data').slice(0, 1)
+    let data = datas[0]
+    if(data){
+      realm.write(()=>{
+        if(index==='1'){
+          data.one = data.one+1
+        }else if(index==='2'){
+          data.two = data.two+1
+        }else if(index==='3'){
+          data.three = data.three+1
+        }else if(index==='4'){
+          data.four = data.four+1
+        }
+      })
+    }else{
+      realm.write(()=>{
+        if(index==='1'){
+          realm.create('Data', {id:1, one: 1});
+        }else if(index==='2'){
+          realm.create('Data', {id:1, two: 1});
+        }else if(index==='3'){
+          realm.create('Data', {id:1, three: 1});
+        }else if(index==='4'){
+          realm.create('Data', {id:1, four: 1});
+        }
+      })
+    }
   }else{
-    realm.write(()=>{
-      if(index==='1'){
-        realm.create('Data', {id:1, one: 1});
-      }else if(index==='2'){
-        realm.create('Data', {id:1, two: 1});
-      }else if(index==='3'){
-        realm.create('Data', {id:1, three: 1});
-      }else if(index==='4'){
-        realm.create('Data', {id:1, four: 1});
-      }
-    })
+    console.log('无法连接到realm服务器')
+    readline.close()
   }
 }
 function showMime(){
