@@ -23,10 +23,10 @@ if(type==='register'){
         global.realm = resutl.realm
         global.realmUser = resutl.realmUser
       }).catch((err)=>{
-
+        console.log(err)
       })
     }else{
-
+      console.log('注册失败')
     }
   })
 }else{
@@ -79,7 +79,9 @@ readline.on('line',function(line){
       showMime()
       break;
     case 'showAll':
-      console.log('showAll')
+      API.allData({token:global.token}).then((response)=>{
+        console.log(response.data)
+      })
       break;
     case 'close':
       readline.close()
@@ -110,18 +112,33 @@ function addOne(index){
         }else if(index==='4'){
           data.four = data.four+1
         }
+        API.update({token:global.token,data:data}).then((response)=>{
+          //console.log(response)
+        }).catch((err)=>{
+          console.log(err)
+        })
       })
     }else{
       realm.write(()=>{
+        let data = {one:0,two:0,three:0,four:0}
         if(index==='1'){
           realm.create('Data', {id:1, one: 1});
+          data.one=1
         }else if(index==='2'){
           realm.create('Data', {id:1, two: 1});
+          data.two=1
         }else if(index==='3'){
           realm.create('Data', {id:1, three: 1});
+          data.three=1
         }else if(index==='4'){
           realm.create('Data', {id:1, four: 1});
+          data.four=1
         }
+        API.update({token:global.token,data:data}).then((response)=>{
+          //console.log(response)
+        }).catch((err)=>{
+          console.log(err)
+        })
       })
     }
   }else{

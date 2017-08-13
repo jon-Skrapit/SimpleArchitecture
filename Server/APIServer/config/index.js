@@ -3,10 +3,10 @@ var config = {
     root: path.normalize(__dirname),
     env: 'server',
     mysql:{
-        host:'localhost',
+        host:'sk-jon-rds.cxhxxyyxwqzj.us-west-2.rds.amazonaws.com',
         user: "root",
         password: "root",
-        database: "test"
+        database: "db"
     },
     express:{
         port: process.env.PORT || 3000

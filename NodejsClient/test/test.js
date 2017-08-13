@@ -9,8 +9,7 @@ const TaskSchema= {
   }
 };
 //accessToken是app登陆之后获取得到的token
-const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvbiIsImV4cGlyZXMiOjE1MDMyMTM2NTk2NjN9.gNXMMFSBjkCGEr-_-kVBgMerYhTvA2TmrvwOKP0AX9k'
-
+const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvbiIsImV4cGlyZXMiOjE1MDMyMTkyNjY1ODl9.I0HpW1w9fkYv3DKpJulAMciN1y0ScDQPt_PTtR7ZTmg'
 const user = Realm.Sync.User.registerWithProvider(
   'http://52.43.33.213:9080//',//realm服务器的ip地址，端口
   'custom/login',//realm服务器上的自定义登陆

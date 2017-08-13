@@ -9,7 +9,7 @@ const getRealm = (accessToken) =>{
         accessToken,
         (error, user) => { 
             if(error){
-                reject(err)
+                reject(error)
             }else{
                 var realm = new Realm({
                     sync: {

@@ -7,7 +7,7 @@ const logger = require('../util/logs');
 
 const update = function(token,data){
     return new Promise((resolve, reject)=>{
-        if(token && data.one && data.two && data.three && data.three){
+        if(token && data && data.one>=0 && data.two>=0 && data.three>=0 && data.four>=0){
             try{
                 let decode = jwt.decode(token,jwtTokenSecret)
                 if(decode.expires<=Date.now()){
