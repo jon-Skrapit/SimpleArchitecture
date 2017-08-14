@@ -66,8 +66,18 @@ const register = function(username,password){
                     }
                 })
             }else{
-                resolve({status:200, success:true, message:"注册成功"})
-                logger.info('注册成功', {status:200, success:true})
+                //在这里生成一个token，记录到数据库中，并返回
+                var expires = moment().add('days',7).valueOf()
+                var token = jwt.encode({
+                    username: username,
+                    expires:expires
+                },jwtTokenSecret)
+                sqlCommand = 'update `users` set `token`=? where `username`=?'
+                connection.query(sqlCommand,[token,username],(err,result)=>{
+                    logger.error(err)
+                })
+                resolve({status:200, success:true, message:"注册成功",data:token})
+                logger.info('注册成功', {status:200, success:true, data:token})
             }
         })
     })
