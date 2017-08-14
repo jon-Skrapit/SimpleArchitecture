@@ -11,5 +11,6 @@ module.exports={
     sqs:{
         queueUrl:'https://sqs.us-west-2.amazonaws.com/783706475927/sk-jon-queue',
         credentialsPath:'/Users/jon/.aws/credentials',
-    }
+    },
+    jwtTokenSecret:'e5PRN3Is>x20'
 }
