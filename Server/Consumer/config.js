@@ -8,4 +8,7 @@ module.exports={
         password: "root",
         database: "db"
     },
+    sqs:{
+        queueUrl:'https://sqs.us-west-2.amazonaws.com/783706475927/sk-jon-queue',
+    }
 }

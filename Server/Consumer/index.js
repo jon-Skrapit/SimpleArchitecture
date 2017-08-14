@@ -2,9 +2,10 @@ const Consumer = require('sqs-consumer')
 const AWS = require('aws-sdk')
 const logger = require('./util/logs')
 const Model = require('./models')
+const config = require('./config')
 AWS.config.loadFromPath('/Users/jon/.aws/credentials')
 const app = Consumer.create({
-    queueUrl:'https://sqs.us-west-2.amazonaws.com/783706475927/sk-jon-queue',
+    queueUrl:config.sqs.queueUrl,
     handleMessage:(message,done)=>{
         logger.info(message.Body)
         try {
@@ -17,6 +18,7 @@ const app = Consumer.create({
         } catch (error) {
             logger.error(err)
         }
+        done()
     },
     sqs:new AWS.SQS()
 })
