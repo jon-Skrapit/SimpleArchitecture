@@ -11,6 +11,10 @@ var config = {
     express:{
         port: process.env.PORT || 3000
     },
-    jwtTokenSecret:'e5PRN3Is>x20'
+    jwtTokenSecret:'e5PRN3Is>x20',
+    sqs:{
+        queueUrl: 'https://sqs.us-west-2.amazonaws.com/783706475927/sk-jon-queue',
+        credentialsPath: '/Users/jon/.aws/credentials'
+    }
 }
 module.exports = config

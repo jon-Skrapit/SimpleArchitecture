@@ -12,7 +12,6 @@ curl -X POST -H "Content-Type: application/json"      -d '{"token":"eyJ0eXAiOiJK
 router.post('/update', function (req, res) {
     token = req.body.token
     data = req.body.data
-    console.log(token,data)
     DataModel.update(token,data).then((result)=>{
         res.json(result)
     })
