@@ -2,6 +2,12 @@
 ![架构图](https://github.com/jon-Skrapit/SimpleArchitecture/blob/master/img/1.png)
 ## Server
 ### APIServer
+* Usage
+1. 需要先搭建好`Nodejs`环境
+2. 在`APIServer/`中执行`npm install`
+3. 使用`npm install -g forever`安装`forever`，让`apiserver`程序可以在后台运行
+4. 在`config/index.js`中设置好`mysql`和`sqs`等参数
+5. 在`APIServer/`中执行`forever start index.js`运行程序
 #### 1.login
 * URL
 
@@ -60,6 +66,16 @@ curl -X POST -H "Content-Type: application/json"      -d '{"token":"eyJ0eXAiOiJK
 ### RealmServer
 在服务器上面部署`realm object server`的时候使用自定义登陆，`custom_login`就是自定义需要验证模块，在`/etc/realm/configuration.yml`中设置`realm`的自定义登陆
 自定义登陆`custom_login`会根据用户登陆之后获得的`token`去访问`api server`,来验证用户身份
+### Consumer
+使用`sqs-consumer`从`sqs`中接收`message`，并将`message`中`update`的内容写入到`database`中
+* Usage
+1. 需要先搭建好`Nodejs`环境
+2. 在`Consumer/`中执行`npm install`
+3. 使用`npm install -g forever`安装`forever`，让`consumer`程序可以在后台运行
+4. 在`config.js`中设置好`mysql`和`sqs`等参数
+5. 在`Consumer/`中执行`forever start index.js`运行程序
+### QueueTest
+为了测试队列使用,写了如何从`sqs`中接收`message`, 如何向`sqs`发送`message`
 ## Client
 前端要实现的功能：
 客户端有四个按钮，分别为1 2 3 4，有8个数字显示，分别为自己按的4个按钮的次数，所有人按的4个按钮的次数总和
