@@ -3,7 +3,7 @@ const AWS = require('aws-sdk')
 const logger = require('./util/logs')
 const Model = require('./models')
 const config = require('./config')
-AWS.config.loadFromPath('/Users/jon/.aws/credentials')
+AWS.config.loadFromPath(config.sqs.credentialsPath)
 const app = Consumer.create({
     queueUrl:config.sqs.queueUrl,
     handleMessage:(message,done)=>{
