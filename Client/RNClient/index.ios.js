@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
 } from 'react-native';
-import Route  from './App/index'
+import Route from './App/index'
 export default class RNClient extends Component {
   render() {
     return (
@@ -16,5 +16,4 @@ export default class RNClient extends Component {
     );
   }
 }
-
 AppRegistry.registerComponent('RNClient', () => RNClient);
