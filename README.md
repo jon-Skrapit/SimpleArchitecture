@@ -188,3 +188,9 @@ curl -X POST -H "Content-Type: application/json"      -d '{"token":"eyJ0eXAiOiJK
 1. 需要先搭建好`Nodejs`环境
 2. 在`NodejsClient/`中执行`npm install`
 5. 在`NodejsClient/`中执行`node index.js`运行程序
+### RNClient
+使用`React Native`完成的前端，注意该`react native app`目前只能在`ios`端使用
+* Usage：
+1. 先搭建好`react native`环境
+2. 在`RNClient/`中执行`npm install`
+3. 在`RNClient/`中执行`react native run-ios`
