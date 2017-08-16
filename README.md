@@ -3,7 +3,7 @@ Realm、API、consumer分别搭建在ec2上，database为rds，queue为sqs
 
 前端要完成的功能：
 客户端有四个按钮，分别为1 2 3 4，有8个数字显示，分别为自己按的4个按钮的次数，所有人按的4个按钮的次数总和
-![架构图](https://github.com/jon-Skrapit/SimpleArchitecture/blob/master/img/1.png)
+![架构图](https://github.com/jon-Skrapit/SimpleArchitecture/blob/master/img/2.png)
 ## Server
 ### APIServer
 * Usage
